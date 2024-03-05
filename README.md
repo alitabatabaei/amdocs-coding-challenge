@@ -1,9 +1,10 @@
 # react-coding-challenge
+
 # Delivery React Coding Challenge
 
 ## 1. Goal
 
-Your goal is to build a react app that displays a list of books. We will provide guidelines and feature requests below, but ultimately the design and functionality of your app is up to you. Keep in mind functionality and code quality is more important than asthetic design.  The code you write should be maintanable and easy to understand.
+Your goal is to build a react app that displays a list of books. We will provide guidelines and feature requests below, but ultimately the design and functionality of your app is up to you. Keep in mind functionality and code quality is more important than aesthetic design. The code you write should be maintainable and easy to understand.
 
 ## 2. Instructions
 
@@ -22,7 +23,7 @@ When you are finished please submit a pull request.
 - The artworks should be listed 10/page with pagination
 - Each item title and thumbnail should be clickable to bring up the artwork detail page
 - Display details about the item on a separate page and have a back button to return to the list page and display the page the user was on
-- List the following items on the detail page: _title,artist_display,date_display,main_reference_number, thubnail, dimensions_
+- List the following items on the detail page: _title,artist_display,date_display,main_reference_number, thumbnail, dimensions_
 - Implement the ability to search the artwork by title and the ability to filter the results by category
 - Document your design decisions
 - You can create components from scratch or you can use a component library but the more code you write yourself, the better

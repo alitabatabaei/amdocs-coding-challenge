@@ -1,22 +1,17 @@
-import { useState } from 'react';
-import './App.css';
-import { Button } from '@/components/ui/button';
+import { useGetAll } from './api';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const pagination = { page: '2', limit: '1' };
 
-  return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <Button onClick={() => setCount(count + 1)}>Count!</Button>
-    </>
-  );
+  const { data, error, isLoading } = useGetAll(pagination);
+
+  if (isLoading) return 'loading';
+  if (error) return 'Error!';
+
+  if (!data) return 'Loading...';
+  console.log(data);
+
+  return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 
 export default App;

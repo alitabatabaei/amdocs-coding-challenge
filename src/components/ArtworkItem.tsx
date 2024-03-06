@@ -18,7 +18,7 @@ const ArtworkItem = ({ id, title, thumbnail, image_id, imageBase }: Props) => {
           </AspectRatio>
         </CardHeader>
         <CardContent>
-          <h2 className="text-lg font-bold">{title}</h2>
+          <h2 className="text-md font-bold">{title}</h2>
         </CardContent>
       </Card>
     </Link>

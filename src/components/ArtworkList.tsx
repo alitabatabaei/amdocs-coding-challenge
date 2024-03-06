@@ -1,19 +1,15 @@
 import { useGetAll } from '@/api';
 import ArtworkItem from '@/components/ArtworkItem';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/components/ui/pagination';
+import { useSearchParams } from 'react-router-dom';
+import ArtworkPagination from './ArtworkPagination';
+
+const limit = 12;
 
 const ArtworkList = () => {
-  const pagination = { page: 2, limit: 10 };
+  const [searchParams] = useSearchParams();
+  const page = Number(searchParams.get('page')) || 1;
 
-  const { data, error, isLoading } = useGetAll(pagination);
+  const { data, error, isLoading } = useGetAll({ page, limit });
 
   if (isLoading) return 'loading';
   if (error) return 'Error!';
@@ -27,22 +23,7 @@ const ArtworkList = () => {
           <ArtworkItem key={art.id} imageBase={data.config.iiif_url} {...art} />
         ))}
       </div>
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <ArtworkPagination {...data.pagination} />
     </>
   );
 };

@@ -11,9 +11,10 @@ const baseURL = 'https://api.artic.edu/api/v1/';
 const fetcher = (args: string) => fetch(args).then((res) => res.json());
 
 export const useGetAll = (params: { limit: number; page: number }) => {
-  const url = [baseURL, 'artworks?', stringifyParams(params)].join('');
+  const fields = ['id', 'title', 'image_id', 'thumbnail'].join();
+  const url = [baseURL, 'artworks?', stringifyParams({ ...params, fields })].join('');
   console.log({ url });
-  return useSWR<{ data: Artwork[]; config: Config }>(url, fetcher);
+  return useSWR<{ data: Artwork[]; config: Config; pagination: PaginationData }>(url, fetcher);
 };
 
 export const useGetById = (id: string) => {
@@ -39,15 +40,24 @@ function stringifyParams(params: Record<string, string | number>) {
 
 // TYPES
 
-export type ApiError = {
-  detail: string;
-  error: string;
-  status: number;
-};
+// type ApiError = {
+//   detail: string;
+//   error: string;
+//   status: number;
+// };
 
 type Config = {
   iiif_url: string;
   website_url: string;
+};
+
+export type PaginationData = {
+  current_page: number;
+  limit: number;
+  next_url: string;
+  offset: number;
+  total: number;
+  total_pages: number;
 };
 
 type Thumbnail = {

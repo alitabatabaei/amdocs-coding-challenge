@@ -9,8 +9,12 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination';
 import { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const ArtworkPagination = ({ current_page, total_pages, siblings = 1 }: Props) => {
+  const [searchParams] = useSearchParams();
+  const q = searchParams.get('q') || '';
+
   const nextPage = total_pages > current_page ? current_page + 1 : null;
   const prevPage = current_page - 1 || null;
 
@@ -63,14 +67,12 @@ const ArtworkPagination = ({ current_page, total_pages, siblings = 1 }: Props) =
     }
   }, [current_page, siblings, total_pages]);
 
-  console.log(paginationRange);
-
   return (
     <Pagination className="my-3">
       <PaginationContent>
         {prevPage && (
           <PaginationItem>
-            <PaginationPrevious to={`?page=${prevPage}`} />
+            <PaginationPrevious to={`?q=${q}&page=${prevPage}`} />
           </PaginationItem>
         )}
         {paginationRange?.map((p, i) => {
@@ -78,7 +80,7 @@ const ArtworkPagination = ({ current_page, total_pages, siblings = 1 }: Props) =
           if (p === DOTS) return <PaginationEllipsis key={key} />;
           return (
             <PaginationItem key={`${i}-${p}`}>
-              <PaginationLink to={`?page=${p}`} isActive={p === current_page}>
+              <PaginationLink to={`?q=${q}&page=${p}`} isActive={p === current_page}>
                 {p}
               </PaginationLink>
             </PaginationItem>
@@ -86,7 +88,7 @@ const ArtworkPagination = ({ current_page, total_pages, siblings = 1 }: Props) =
         })}
         {nextPage && (
           <PaginationItem>
-            <PaginationNext to={`?page=${nextPage}`} />
+            <PaginationNext to={`?q=${q}&page=${nextPage}`} />
           </PaginationItem>
         )}
       </PaginationContent>

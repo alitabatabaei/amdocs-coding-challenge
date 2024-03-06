@@ -8,24 +8,31 @@ import useSWR from 'swr';
 //   - https://api.artic.edu/api/v1/artworks/search?q=monet
 
 const baseURL = 'https://api.artic.edu/api/v1/';
-const fetcher = (args: string) => fetch(args).then((res) => res.json());
+const fetcher = (args: string) =>
+  fetch(args)
+    .then((res) => res.json())
+    .catch((e) => e);
 
-export const useGetAll = (params: { limit: number; page: number }) => {
+const limit = 12;
+
+export const useGetAll = (params: { page: number }) => {
   const fields = ['id', 'title', 'image_id', 'thumbnail', 'artist_title'].join();
-  const url = [baseURL, 'artworks?', stringifyParams({ ...params, fields })].join('');
-  console.log({ url });
-  return useSWR<{ data: Artwork[]; config: Config; pagination: PaginationData }>(url, fetcher);
+  const url = [baseURL, 'artworks?', stringifyParams({ ...params, limit, fields })].join('');
+  return useSWR<
+    { data: Artwork[]; config: Config; pagination: PaginationData } & Partial<ApiError>
+  >(url, fetcher);
 };
 
 export const useGetById = (id = '') => {
   const url = [baseURL, 'artworks/', id].join('');
-  return useSWR<{ data: ArtworkDetails; config: Config }>(url, fetcher);
+  return useSWR<{ data: ArtworkDetails; config: Config } & Partial<ApiError>>(url, fetcher);
 };
 
-export const useSearch = (q: string) => {
-  const url = [baseURL, 'artworks/search?', stringifyParams({ q })].join('');
-  console.log({ url });
-  return useSWR(url, fetcher);
+export const useSearch = (params: { q: string; page: number }) => {
+  const url = [baseURL, 'artworks/search?', stringifyParams({ ...params, limit })].join('');
+  return useSWR<
+    { data: SearchResult[]; config: Config; pagination: PaginationData } & Partial<ApiError>
+  >(url, fetcher);
 };
 
 // UTILS
@@ -39,11 +46,11 @@ function stringifyParams(params: Record<string, string | number>) {
 
 // TYPES
 
-// type ApiError = {
-//   detail: string;
-//   error: string;
-//   status: number;
-// };
+type ApiError = {
+  detail: string;
+  error: string;
+  status: number;
+};
 
 type Config = {
   iiif_url: string;
@@ -82,4 +89,15 @@ export type ArtworkDetails = {
   thumbnail: Thumbnail | null;
   image_id: string;
   dimensions: string;
+};
+
+export type SearchResult = {
+  _score: number;
+  thumbnail: Thumbnail;
+  api_model: string;
+  is_boosted: boolean;
+  api_link: string;
+  id: number;
+  title: string;
+  timestamp: string;
 };

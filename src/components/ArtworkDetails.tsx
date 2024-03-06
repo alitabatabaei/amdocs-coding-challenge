@@ -3,14 +3,15 @@ import { useParams } from 'react-router-dom';
 import ArtImage from './ArtImage';
 import { CalendarFold, Scaling, ScanBarcode } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card';
+import Header from './Header';
 
 const ArtworkDetails = () => {
   const { id } = useParams();
   const { data, isLoading } = useGetById(id);
 
   if (!data || isLoading) return 'loading...';
+  if (data.error) return data.detail || 'Error!';
 
-  console.log(data.data);
   const {
     title,
     artist_display,
@@ -22,9 +23,9 @@ const ArtworkDetails = () => {
   } = data.data;
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <ArtImage id={image_id} baseUrl={data.config.iiif_url} thumb={thumbnail} />
-      <Card className="mt-2">
+    <div>
+      <Header back />
+      <Card className="mb-4">
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{artist_display}</CardDescription>
@@ -46,6 +47,7 @@ const ArtworkDetails = () => {
           </div>
         </CardContent>
       </Card>
+      <ArtImage id={image_id} baseUrl={data.config.iiif_url} thumb={thumbnail} />
     </div>
   );
 };

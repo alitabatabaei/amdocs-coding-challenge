@@ -1,10 +1,10 @@
 import { Artwork } from '@/api';
-import { Card, CardContent, CardHeader } from './ui/card';
+import { Card, CardContent, CardDescription, CardHeader } from './ui/card';
 import { artworkImageUrl, cn } from '@/lib/utils';
 import { AspectRatio } from '@radix-ui/react-aspect-ratio';
 import { Link } from 'react-router-dom';
 
-const ArtworkItem = ({ id, title, thumbnail, image_id, imageBase }: Props) => {
+const ArtworkItem = ({ id, title, thumbnail, image_id, imageBase, artist_title }: Props) => {
   const imageUrl = artworkImageUrl(image_id, imageBase, thumbnail);
   return (
     <Link to={`${id}`}>
@@ -18,12 +18,19 @@ const ArtworkItem = ({ id, title, thumbnail, image_id, imageBase }: Props) => {
           </AspectRatio>
         </CardHeader>
         <CardContent>
-          <h2 className="text-md font-bold">{title}</h2>
+          <h2 className="text-md font-bold">{ellipsis(title, 50)}</h2>
+          <CardDescription>{artist_title}</CardDescription>
         </CardContent>
       </Card>
     </Link>
   );
 };
+
+function ellipsis(str: string, max: number) {
+  if (str.length <= max) return str;
+  const trimmed = str.substring(0, max).trim();
+  return trimmed + '...';
+}
 
 type Props = Artwork & { imageBase: string };
 

@@ -11,15 +11,14 @@ const baseURL = 'https://api.artic.edu/api/v1/';
 const fetcher = (args: string) => fetch(args).then((res) => res.json());
 
 export const useGetAll = (params: { limit: number; page: number }) => {
-  const fields = ['id', 'title', 'image_id', 'thumbnail'].join();
+  const fields = ['id', 'title', 'image_id', 'thumbnail', 'artist_title'].join();
   const url = [baseURL, 'artworks?', stringifyParams({ ...params, fields })].join('');
   console.log({ url });
   return useSWR<{ data: Artwork[]; config: Config; pagination: PaginationData }>(url, fetcher);
 };
 
-export const useGetById = (id: string) => {
+export const useGetById = (id = '') => {
   const url = [baseURL, 'artworks/', id].join('');
-  console.log({ url });
   return useSWR(url, fetcher);
 };
 
@@ -72,4 +71,9 @@ export type Artwork = {
   title: string;
   image_id: string;
   thumbnail: Thumbnail | null;
+  artist_title: string;
 };
+
+// export type ArtworkDetails {
+
+// }

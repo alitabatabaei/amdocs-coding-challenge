@@ -18,7 +18,7 @@ const ArtworkList = () => {
 
   return (
     <>
-      <div className="grid sm:grid-cols-3 gap-4 w-full max-w-4xl mx-auto p-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full max-w-6xl mx-auto p-4">
         {data.data.map((art) => (
           <ArtworkItem key={art.id} imageBase={data.config.iiif_url} {...art} />
         ))}

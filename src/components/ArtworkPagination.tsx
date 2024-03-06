@@ -73,17 +73,17 @@ const ArtworkPagination = ({ current_page, total_pages, siblings = 1 }: Props) =
             <PaginationPrevious to={`?page=${prevPage}`} />
           </PaginationItem>
         )}
-        {paginationRange?.map((p, i) => (
-          <PaginationItem key={`${i}-${p}`}>
-            {p === DOTS ? (
-              <PaginationEllipsis />
-            ) : (
+        {paginationRange?.map((p, i) => {
+          const key = `${i}-${p}`;
+          if (p === DOTS) return <PaginationEllipsis key={key} />;
+          return (
+            <PaginationItem key={`${i}-${p}`}>
               <PaginationLink to={`?page=${p}`} isActive={p === current_page}>
                 {p}
               </PaginationLink>
-            )}
-          </PaginationItem>
-        ))}
+            </PaginationItem>
+          );
+        })}
         {nextPage && (
           <PaginationItem>
             <PaginationNext to={`?page=${nextPage}`} />

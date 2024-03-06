@@ -19,7 +19,7 @@ export const useGetAll = (params: { limit: number; page: number }) => {
 
 export const useGetById = (id = '') => {
   const url = [baseURL, 'artworks/', id].join('');
-  return useSWR(url, fetcher);
+  return useSWR<{ data: ArtworkDetails; config: Config }>(url, fetcher);
 };
 
 export const useSearch = (q: string) => {
@@ -74,6 +74,12 @@ export type Artwork = {
   artist_title: string;
 };
 
-// export type ArtworkDetails {
-
-// }
+export type ArtworkDetails = {
+  title: string;
+  artist_display: string;
+  date_display: string;
+  main_reference_number: string;
+  thumbnail: Thumbnail | null;
+  image_id: string;
+  dimensions: string;
+};

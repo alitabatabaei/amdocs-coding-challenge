@@ -19,7 +19,7 @@ const SearchBox = ({ value }: Props) => {
     <form
       id="search"
       onSubmit={handleSubmit}
-      className="flex w-full max-w-sm items-center space-x-2"
+      className="flex w-full max-w-60 md:max-w-sm items-center space-x-2"
     >
       <Input type="search" placeholder="Search..." value={query} onChange={handleChange} />
       <Button type="submit" size="icon">

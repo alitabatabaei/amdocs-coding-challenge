@@ -8,6 +8,6 @@ export function cn(...inputs: ClassValue[]) {
 
 export function artworkImageUrl(id: string, baseUrl: string, thumb: Artwork['thumbnail']) {
   if (!thumb) return;
-  const width = Math.min(thumb.width, 6400);
+  const width = Math.min(thumb.width, 400);
   return [baseUrl, '/', id, '/full/', width, ',/0/default.jpg'].join('');
 }
